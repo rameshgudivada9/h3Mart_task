@@ -10,6 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { Footer } from "../footer/Footer";
 
 export const Landingpage = ({ props }) => {
   const [currencyData, setCurrencyData] = useState([]);
@@ -140,10 +141,12 @@ export const Landingpage = ({ props }) => {
           </TableContainer>
         </div>
         <button className="loadbutton" onClick={() => loadmore()}>
-          View More
+          <h3>View More</h3>{" "}
         </button>
       </div>
-      {/* <div className="partB"></div> */}
+      {/* <div className="partB">
+        <Footer/>
+      </div> */}
     </div>
   );
 };

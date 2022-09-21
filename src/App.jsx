@@ -1,10 +1,10 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import './App.css';
-import { Landingpage } from './components/Landingpage/Landingpage';
+import axios from "axios";
+import { useEffect, useState } from "react";
+import "./App.css";
+import { Landingpage } from "./components/Landingpage/Landingpage";
+import { Navbar } from "./components/navbar/Navbar";
 
 function App() {
-
   const [newdata, setNewdata] = useState([]);
 
   async function getdata() {
@@ -24,7 +24,8 @@ function App() {
   }, []);
   return (
     <div className="App">
-   <Landingpage props={{newdata,getdata}}/>
+      <Navbar />
+      <Landingpage props={{ newdata, getdata }} />
     </div>
   );
 }
