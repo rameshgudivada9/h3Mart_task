@@ -14,9 +14,13 @@ import Paper from "@mui/material/Paper";
 export const Landingpage = ({ props }) => {
   const [currencyData, setCurrencyData] = useState([]);
 
-  const changedecimal=(value)=>{
-value.toFixed()
-  }
+  const [noOfElements, setNoOfElements] = useState(40);
+
+  const splice = props.newdata.slice(0, noOfElements);
+
+  const loadmore = () => {
+    setNoOfElements(noOfElements + noOfElements);
+  };
 
   return (
     <div className="main">
@@ -67,32 +71,77 @@ value.toFixed()
                 </TableRow>
               </TableHead>
               <TableBody>
-                {props.newdata?.map((ele, i) => (
-                  <TableRow
-                    key={i}
-                    sx={{
-                      "&:last-child td, &:last-child th": { border: 0 },
-                    }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {ele.rank}
-                    </TableCell>
-                    <TableCell>
-                      <div>{ele.name}</div>
-                      <div>{ele.symbol}</div>
-                    </TableCell>
-                    <TableCell align="right">{`$${ele.priceUsd}`}</TableCell>
-                    <TableCell align="right">{ele.marketCapUsd}</TableCell>
-                    <TableCell align="right">{ele.vwap24Hr}</TableCell>
-                    <TableCell align="right">{ele.supply}</TableCell>
-                    <TableCell align="right">{ele.volumeUsd24Hr}</TableCell>
-                    <TableCell align="right">{ele.changePercent24Hr}</TableCell>
-                  </TableRow>
-                ))}
+                {splice?.map((ele, i) => {
+                  var price = Number(ele.priceUsd);
+                  price = price.toFixed(2);
+
+                  var marketcap = Number(ele.marketCapUsd) % 54;
+                  marketcap = marketcap.toFixed(2);
+
+                  var vwap = Number(ele.vwap24Hr);
+                  vwap = vwap.toFixed(2);
+
+                  var supply = Number(ele.supply) % 10;
+                  supply = supply.toFixed(2);
+
+                  var volume = Number(ele.volumeUsd24Hr) % 50;
+                  volume = volume.toFixed(2);
+
+                  var change = Number(ele.changePercent24Hr);
+                  change = change.toFixed(2);
+
+                  var flag;
+                  if (change >= 0) {
+                    flag = true;
+                  } else {
+                    flag = false;
+                  }
+
+                  var changealpha = ele.symbol.toLowerCase();
+                  return (
+                    <TableRow
+                      key={i}
+                      sx={{
+                        "&:last-child td, &:last-child th": { border: 0 },
+                      }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {ele.rank}
+                      </TableCell>
+                      <TableCell>
+                        <div className="name-div">
+                          <div className="img-size">
+                            <img
+                              src={`https://assets.coincap.io/assets/icons/${changealpha}%402x.png`}
+                            />
+                          </div>
+                          <div>
+                            <div>{ele.name}</div>
+
+                            <div>{ele.symbol}</div>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell align="right">${price}</TableCell>
+                      <TableCell align="right">{`$${marketcap}b`}</TableCell>
+                      <TableCell align="right">{`$${vwap}`}</TableCell>
+                      <TableCell align="right">{`$${supply}m`}</TableCell>
+                      <TableCell align="right">{`$${volume}b`}</TableCell>
+                      <TableCell align="right">
+                        <div className={change > 0 ? "plus" : "minus"}>
+                          {change}%
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </TableContainer>
         </div>
+        <button className="loadbutton" onClick={() => loadmore()}>
+          View More
+        </button>
       </div>
       {/* <div className="partB"></div> */}
     </div>
